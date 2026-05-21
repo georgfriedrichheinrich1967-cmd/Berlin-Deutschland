@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berlin, Deutschland - Regierungsportal</title>
+    <style>
+        /* --- BASICS & RESET --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f8;
+            color: #333;
+        }
+
+        /* --- HEADER DESIGN (Nach Vorlage) --- */
+        .main-header {
+            background-color: #0d2c47; /* Dunkelblaues Banner */
+            color: #ffffff;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid #cc0000; /* Berliner Rot als Akzent */
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Simuliertes Berliner Bär-Logo */
+        .logo-bear {
+            font-size: 28px;
+            font-weight: bold;
+            border: 2px solid white;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .brand-text {
+            line-height: 1.2;
+        }
+
+        .brand-text .city {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .brand-text .country {
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+
+        /* Silhouette des Roten Rathauses in der Mitte */
+        .header-center {
+            text-align: center;
+        }
+        
+        .rathaus-icon {
+            font-size: 32px;
+            opacity: 0.8;
+        }
+
+        .header-right {
+            text-align: right;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .header-right div {
+            margin-bottom: 4px;
+            cursor: pointer;
+        }
+        .header-right div:hover {
+            text-decoration: underline;
+        }
+
+        /* --- NAVIGATION BAR --- */
+        .nav-bar {
+            background-color: #ffffff;
+            padding: 12px 40px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+        }
+
+        .nav-item {
+            background-color: #e9ecef;
+            color: #212529;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 4px;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: #0d2c47;
+            color: white;
+        }
+
+        /* --- FREI GESTALTBARER BEREICH (Dashboard & News) --- */
+        .main-content {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 40px;
+        }
+
+        /* Hero-Bereich (Willkommen) */
+        .welcome-banner {
+            background: linear-gradient(135deg, #113a5d 0%, #0d2c47 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .welcome-banner h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .welcome-banner p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* Grid für Regierungsdaten & News */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Karten / Cards */
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-top: 4px solid #0d2c47;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #0d2c47;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #f4f6f8;
+            padding-bottom: 10px;
+        }
+
+        /* Eilmeldungen / Anträge Liste */
+        .news-list {
+            list-style: none;
+        }
+
+        .news-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+        }
+
+        .tag {
+            align-self: flex-start;
+            font-size: 11px;
+            background-color: #cc0000;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .tag.green { background-color: #28a745; }
+        .tag.orange { background-color: #fd7e14; }
+
+        .news-item h3 {
+            font-size: 16px;
+            color: #222;
+        }
+
+        .news-item p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Sitzverteilung Visualisierung (Interaktiver Bereich) */
+        .chart-placeholder {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .bar-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .bar-label {
+            width: 80px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .bar-track {
+            flex-grow: 1;
+            background-color: #e9ecef;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+
+        /* Widgets im rechten Bereich */
+        .widget-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .quick-link-btn {
+            display: block;
+            width: 100%;
+            background-color: #ffffff;
+            color: #0d2c47;
+            border: 2px solid #0d2c47;
+            padding: 12px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .quick-link-btn:hover {
+            background-color: #0d2c47;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-left">
+            <div class="logo-bear">🐻</div>
+            <div class="brand-text">
+                <div class="city">BERLIN,</div>
+                <div class="country">DEUTSCHLAND</div>
+            </div>
+        </div>
+        
+        <div class="header-center">
+            <div class="rathaus-icon">🏛️</div>
+        </div>
+
+        <div class="header-right">
+            <div>DE | EN</div>
+            <div>SUCHE 🔍</div>
+        </div>
+    </header>
+
+    <nav class="nav-bar">
+        <a href="#" class="nav-item">Terminkalender</a>
+        <a href="#" class="nav-item active">Anträge des Parlamentes</a>
+        <a href="#" class="nav-item">Petitionen</a>
+        <a href="#" class="nav-item">Sitzverteilung</a>
+        <a href="#" class="nav-item">Die Bundesregierung</a>
+        <a href="#" class="nav-item">Fragen</a>
+    </nav>
+
+    <main class="main-content">
+        
+        <div class="welcome-banner">
+            <h1>Parlaments- und Regierungsportal Berlin</h1>
+            <p>Hier finden Sie aktuelle Beschlüsse, Anträge sowie Live-Daten aus den aktuellen Sitzungsperioden des Senats und Abgeordnetenhauses.</p>
+        </div>
+
+        <div class="dashboard-grid">
+            
+            <section class="card">
+                <div class="card-title">
+                    <span>Aktuelle Anträge im Fokus</span>
+                    <span style="font-size: 13px; color: #666;">Letztes Update: Gerade eben</span>
+                </div>
+                
+                <ul class="news-list">
+                    <li class="news-item">
+                        <span class="tag">Dringend</span>
+                        <h3>Antrag 412/XX: Ausbau des digitalen Bürgeramts 2026</h3>
+                        <p>Der Senat berät über die vollständige Automatisierung von Wohnsitzanmeldungen via Krypto-ID.</p>
+                    </li>
+                    <li class="news-item">
+                        <span class="tag orange">In Abstimmung</span>
+                        <h3>Antrag 399/XX: Modernisierung des ÖPNV-Netzes Spandau</h3>
+                        <p>Erweiterung der Tram-Linien und Taktverdichtung zu den Stoßzeiten.</p>
+                    </li>
+                    <li class="news-item">
+                        <span class="tag green">Angenommen</span>
+                        <h3>Petition: Erhalt der Grünflächen im Tempelhofer Feld</h3>
+                        <p>Mit über 75.000 Stimmen wurde der Antrag zur dauerhaften Unantastbarkeit angenommen.</p>
+                    </li>
+                </ul>
+            </section>
+
+            <div class="widget-stack">
+                
+                <section class="card">
+                    <div class="card-title">Sitzverteilung (Fiktiv)</div>
+                    <p style="font-size: 13px; color:#666; margin-bottom: 15px;">Aktuelle Verteilung der 160 Sitze im Abgeordnetenhaus.</p>
+                    
+                    <div class="chart-placeholder">
+                        <div class="bar-container">
+                            <div class="bar-label">Partei A</div>
+                            <div class="bar-track"><div class="bar-fill" style="width: 35%; background-color: #333;"></div></div>
+                            <span style="font-size:12px; font-weight:bold;">35%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-label">Partei B</div>
+                            <div class="bar-track"><div class="bar-fill" style="width: 28%; background-color: #cc0000;"></div></div>
+                            <span style="font-size:12px; font-weight:bold;">28%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-label">Partei C</div>
+                            <div class="bar-track"><div class="bar-fill" style="width: 20%; background-color: #28a745;"></div></div>
+                            <span style="font-size:12px; font-weight:bold;">20%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-label">Andere</div>
+                            <div class="bar-track"><div class="bar-fill" style="width: 17%; background-color: #fd7e14;"></div></div>
+                            <span style="font-size:12px; font-weight:bold;">17%</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card" style="border-top: 4px solid #cc0000;">
+                    <div class="card-title">Bürgerservice</div>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <a href="#" class="quick-link-btn">Fragestunde einreichen</a>
+                        <a href="#" class="quick-link-btn">Live-Stream der Plenarsitzung</a>
+                    </div>
+                </section>
+
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Kleines interaktives Element für die Navigation
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                navItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
